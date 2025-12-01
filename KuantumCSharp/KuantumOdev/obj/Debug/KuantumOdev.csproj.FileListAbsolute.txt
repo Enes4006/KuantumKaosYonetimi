@@ -1,0 +1,16 @@
+C:\Users\ENES\source\repos\KuantumOdev\KuantumOdev\bin\Debug\KuantumOdev.exe.config
+C:\Users\ENES\source\repos\KuantumOdev\KuantumOdev\bin\Debug\KuantumOdev.exe
+C:\Users\ENES\source\repos\KuantumOdev\KuantumOdev\bin\Debug\KuantumOdev.pdb
+C:\Users\ENES\source\repos\KuantumOdev\KuantumOdev\obj\Debug\KuantumOdev.csproj.AssemblyReference.cache
+C:\Users\ENES\source\repos\KuantumOdev\KuantumOdev\obj\Debug\KuantumOdev.csproj.CoreCompileInputs.cache
+C:\Users\ENES\source\repos\KuantumOdev\KuantumOdev\obj\Debug\KuantumOdev.exe
+C:\Users\ENES\source\repos\KuantumOdev\KuantumOdev\obj\Debug\KuantumOdev.pdb
+C:\Users\ENES\source\repos\KuantumOdev\KuantumOdev\obj\Debug\KuantumOdev.exe.config
+C:\Users\ENES\source\repos\KuantumOdev\KuantumCSharp\KuantumOdev\bin\Debug\KuantumOdev.exe.config
+C:\Users\ENES\source\repos\KuantumOdev\KuantumCSharp\KuantumOdev\bin\Debug\KuantumOdev.exe
+C:\Users\ENES\source\repos\KuantumOdev\KuantumCSharp\KuantumOdev\bin\Debug\KuantumOdev.pdb
+C:\Users\ENES\source\repos\KuantumOdev\KuantumCSharp\KuantumOdev\obj\Debug\KuantumOdev.csproj.AssemblyReference.cache
+C:\Users\ENES\source\repos\KuantumOdev\KuantumCSharp\KuantumOdev\obj\Debug\KuantumOdev.exe.config
+C:\Users\ENES\source\repos\KuantumOdev\KuantumCSharp\KuantumOdev\obj\Debug\KuantumOdev.csproj.CoreCompileInputs.cache
+C:\Users\ENES\source\repos\KuantumOdev\KuantumCSharp\KuantumOdev\obj\Debug\KuantumOdev.exe
+C:\Users\ENES\source\repos\KuantumOdev\KuantumCSharp\KuantumOdev\obj\Debug\KuantumOdev.pdb

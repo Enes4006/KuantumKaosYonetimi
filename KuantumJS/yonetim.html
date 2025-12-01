@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kuantum Ambari Simülasyonu</title>
+    <style>
+        body { font-family: 'Courier New', monospace; background-color: #1e1e1e; color: #0f0; padding: 20px; }
+        #kontrol-paneli { margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        button {
+            background-color: #333; color: white; border: 1px solid #555; 
+            padding: 10px 15px; cursor: pointer; margin-right: 5px;
+            font-family: inherit;
+        }
+        button:hover { background-color: #555; }
+        #ekran {
+            background-color: black; border: 1px solid #0f0; 
+            padding: 10px; height: 400px; overflow-y: scroll;
+            white-space: pre-wrap; /* satır sonlarını korur */
+        }
+        .hata { color: red; font-weight: bold; }
+        .bilgi { color: cyan; }
+    </style>
+</head>
+<body>
+
+    <h1>KUANTUM AMBARI KONTROL PANELİ</h1>
+    
+    <div id="kontrol-paneli">
+        <button onclick="nesneEkle()">1. Yeni Nesne Ekle</button>
+        <button onclick="listele()">2. Envanteri Listele</button>
+        <button onclick="analizEtButonu()">3. Nesne Analiz Et</button>
+        <button onclick="sogutmaYapButonu()">4. Acil Soğutma</button>
+        <button onclick="ekraniTemizle()">Ekranı Temizle</button>
+    </div>
+
+    <div id="ekran">Sistem hazır. Komut bekleniyor...<br>----------------------------------------</div>
+
+    <script>
+        function ekranaYaz(mesaj, tip = 'normal') {
+            const ekran = document.getElementById('ekran');
+            const zaman = new Date().toLocaleTimeString();
+            let renkStyle = "";
+            if(tip === 'hata') renkStyle = 'class="hata"';
+            if(tip === 'bilgi') renkStyle = 'class="bilgi"';
+            
+            ekran.innerHTML += `<div ${renkStyle}>[${zaman}] ${mesaj}</div>`;
+            ekran.scrollTop = ekran.scrollHeight; // otomatik aşağı kaydır
+        }
+
+        
+        class KuantumCokusuException extends Error {
+            constructor(id) {
+                super(`Kuantum çöktü! Nesne ${id} patladı!`);
+                this.name = "KuantumCokusuException";
+            }
+        }
+
+        class KuantumNesnesi {
+            constructor(id) {
+                this.ID = id;
+                this._stabilite = 70.0;
+                this.tehlikeSeviyesi = Math.floor(Math.random() * 10) + 1;
+            }
+
+            get stabilite() { return this._stabilite; }
+            set stabilite(value) {
+                if (value < 0) {
+                    throw new KuantumCokusuException(this.ID);
+                } else if (value > 100) {
+                    this._stabilite = 100;
+                } else {
+                    this._stabilite = value;
+                }
+            }
+            durumBilgisi() {
+                // class ismini alarak tipini gösterelim
+                return `[${this.constructor.name}] ID: ${this.ID}, Stabilite: %${this.stabilite.toFixed(1)}`;
+            }
+        }
+
+        class VeriPaketi extends KuantumNesnesi {
+            analizEt() {
+                this.stabilite = this.stabilite - 5;
+                ekranaYaz("Veri içeriği okundu.", "bilgi");
+            }
+        }
+
+        class KaranlikMadde extends KuantumNesnesi {
+            analizEt() {
+                this.stabilite = this.stabilite - 15;
+            }
+            acilDurumSogutmasi() {
+                this.stabilite = this.stabilite + 50;
+                ekranaYaz("Soğutma yapıldı, stabilite yenilendi.", "bilgi");
+            }
+        }
+
+        class AntiMadde extends KuantumNesnesi {
+            analizEt() {
+                this.stabilite = this.stabilite - 25;
+                ekranaYaz("Evrenin dokusu titriyor...", "hata");
+            }
+            acilDurumSogutmasi() {
+                this.stabilite = this.stabilite + 50;
+                ekranaYaz("Acil durum soğutması yapıldı, stabilite yenilendi.", "bilgi");
+            }
+        }
+
+        // --- PROGRAM MANTIĞI ---
+
+        let envanter = [];
+        let idCounter = 1;
+
+        function nesneEkle() {
+            try {
+                let tip = Math.floor(Math.random() * 3);
+                let yeniId = "qua" + idCounter++;
+                let nesne;
+
+                if (tip === 0) {
+                    nesne = new VeriPaketi(yeniId);
+                    ekranaYaz(`Yeni VeriPaketi üretildi: ${yeniId}`);
+                } else if (tip === 1) {
+                    nesne = new KaranlikMadde(yeniId);
+                    ekranaYaz(`Yeni KaranlıkMadde tespit edildi: ${yeniId}`, "bilgi");
+                } else {
+                    nesne = new AntiMadde(yeniId);
+                    ekranaYaz(`UYARI: Yeni AntiMadde oluştu: ${yeniId}`, "hata");
+                }
+                envanter.push(nesne);
+            } catch (e) {
+                hataYakalayici(e);
+            }
+        }
+
+        function listele() {
+            ekranaYaz("--- ENVANTER DURUMU ---");
+            if(envanter.length === 0) {
+                ekranaYaz("Envanter boş.");
+                return;
+            }
+            envanter.forEach(nesne => {
+                ekranaYaz(nesne.durumBilgisi());
+            });
+            ekranaYaz("-----------------------");
+        }
+
+        function analizEtButonu() {
+            let araId = prompt("Analiz edilecek nesne ID'sini girin (Örn: N1):");
+            if(!araId) return; // iptal ederse çık
+
+            let bulundu = false;
+            try {
+                for (let nesne of envanter) {
+                    if (nesne.ID === araId) {
+                        ekranaYaz(`${araId} analiz ediliyor...`);
+                        nesne.analizEt();
+                        ekranaYaz(`Analiz tamamlandı. Yeni Stabilite: ${nesne.stabilite}`);
+                        bulundu = true;
+                        break;
+                    }
+                }
+                if (!bulundu) ekranaYaz("HATA: ID bulunamadı!", "hata");
+            } catch (e) {
+                hataYakalayici(e);
+            }
+        }
+
+        function sogutmaYapButonu() {
+            let sogutId = prompt("Soğutulacak nesne ID'sini girin (Örn: N2):");
+            if(!sogutId) return;
+
+            let bulundu = false;
+            try {
+                for (let nesne of envanter) {
+                    if (nesne.ID === sogutId) {
+                        bulundu = true;
+                        if (nesne.acilDurumSogutmasi) {
+                            nesne.acilDurumSogutmasi();
+                        } else {
+                            ekranaYaz("Bu nesne soğutma gerektirmez (Veri Paketi).", "hata");
+                        }
+                        break;
+                    }
+                }
+                if (!bulundu) ekranaYaz("HATA: ID bulunamadı!", "hata");
+            } catch (e) {
+                hataYakalayici(e);
+            }
+        }
+
+        function ekraniTemizle() {
+            document.getElementById('ekran').innerHTML = "Sistem temizlendi.<br>----------------------------------------";
+        }
+
+        function hataYakalayici(e) {
+            if (e.name === "KuantumCokusuException") {
+                ekranaYaz("KRİTİK HATA: SİSTEM ÇÖKTÜ! " + e.message, "hata");
+                ekranaYaz("Tüm envanter yok oldu...", "hata");
+                envanter = []; // simülasyon gereği her şeyi sıfırladık
+            } else {
+                ekranaYaz("Hata: " + e.message, "hata");
+            }
+        }
+
+    </script>
+</body>
+</html>
