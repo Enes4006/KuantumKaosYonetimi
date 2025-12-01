@@ -1,4 +1,4 @@
-# ⚛ Kuantum Kaos Yönetimi (Quantum Chaos Management)
+# ⚛ Kuantum Kaos Yönetimi
 
 Bu proje, nesne yönelimli programlama (OOP) prensipleri kullanılarak geliştirilmiş bir konsol tabanlı simülasyon uygulamasıdır. Amaç, farklı türdeki kuantum nesnelerinin stabilitelerini kontrol etmek, tehlike durumlarını yönetmek ve sistem çöküşünü önlemektir.
 
@@ -44,7 +44,6 @@ Stabilite değeri 0'ın altına düşerse **Kuantum Çöküşü (Exception)** me
 Bu süreç sayesinde OOP mantığı çok daha iyi kavranmıştır.
 
 ---
-
 
 
 ⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡯⠛⠃⠀⠀⠀⠀⠀⠀⠈⠉⠙⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
